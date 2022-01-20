@@ -10,6 +10,7 @@ public class SDKLANG : MonoBehaviour
 {
     public Text _textLanguage;
     public Text Languages;
+    public Text deviceText;
     private SDKLANG SDK;
     
     [DllImport("__Internal")] private static extern void ProjectStarted();
@@ -51,14 +52,16 @@ public class SDKLANG : MonoBehaviour
         _textLanguage.text = lang;
         Languages.text = "Error";
         print(lang);
-        switch (lang)
-        {
-            case"ru":
-                Languages.text = "Русский";
-                break;
-            case"en":
-                Languages.text = "English";
-                break;
-        }
+        if (lang == "ru")
+            Languages.text = "Русский";
+        else if(lang == "en")
+            Languages.text = "English";
+    }
+    
+    public void GettingDevice(string _device)
+    {
+        var json = JSON.Parse(_device);
+        string device = json["type"];
+        deviceText.text = device;
     }
 }

@@ -16,9 +16,6 @@
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-mobile-warning">
-        WebGL builds are not supported on mobile devices.
-      </div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
@@ -27,11 +24,11 @@
     </div>
     <script>
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/RReadyYLAng.loader.js";
+      var loaderUrl = buildUrl + "/Build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/RReadyYLAng.data.unityweb",
-        frameworkUrl: buildUrl + "/RReadyYLAng.framework.js.unityweb",
-        codeUrl: buildUrl + "/RReadyYLAng.wasm.unityweb",
+        dataUrl: buildUrl + "/Build.data.unityweb",
+        frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
+        codeUrl: buildUrl + "/Build.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "VIDEOS",
@@ -59,11 +56,11 @@
       loadingBar.style.display = "block";
 
       var script = document.createElement("script");
-      var unityI = null;
+      var unityI= null;
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
+          progressBarFull.style.opacity = progress;
         }).then((unityInstance) => {
           unityI = unityInstance;
           loadingBar.style.display = "none";
@@ -76,7 +73,7 @@
       };
       document.body.appendChild(script);
     </script>
-
+    
     <script src="https://yandex.ru/games/sdk/v2"></script>
     <script>
       var player;
@@ -92,6 +89,9 @@
           var data = sdk.environment;
           console.log(data);
           unityI.SendMessage('SDKLANG','GettingLang',JSON.stringify(data));
+
+          var data = sdk.deviceInfo;
+          unityI.SendMessage('SDKLANG','GettingDevice',JSON.stringify(data));
       }
 
     </script>
